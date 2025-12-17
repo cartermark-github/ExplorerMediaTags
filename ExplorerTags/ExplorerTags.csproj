@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>images\Tag.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\Copy.png" />
+    <None Remove="images\DelPrompt.png" />
+    <None Remove="images\Movie Add.png" />
+    <None Remove="images\NewPrompt.png" />
+    <None Remove="images\OpenMedia.png" />
+    <None Remove="images\Tag.ico" />
+    <None Remove="images\UnCheck.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="images\Tag.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Copy.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
+    <PackageReference Include="WindowsAPICodePack" Version="8.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\DelPrompt.png" />
+    <Resource Include="images\Movie Add.png" />
+    <Resource Include="images\NewPrompt.png" />
+    <Resource Include="images\OpenMedia.png" />
+    <Resource Include="images\Tag.ico" />
+    <Resource Include="images\UnCheck.png" />
+  </ItemGroup>
+
+</Project>

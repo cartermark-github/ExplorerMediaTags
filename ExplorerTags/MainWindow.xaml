@@ -1,0 +1,308 @@
+﻿<Window x:Class="ExplorerTags.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExplorerTags"
+        mc:Ignorable="d"
+        Title="Explorer Media Tags" Height="600" Width="700" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="BorderThickness" Value="2"/>
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="4" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="4" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid x:Name="MainWindowGrid" Margin="5,5,5,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>                                                                                             
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="32"/>
+            
+        </Grid.RowDefinitions>
+
+
+        <Image Source="{Binding VideoThumbnail}" 
+            Stretch="Uniform"
+            Height="100"
+            Width="200">
+        </Image>
+
+
+        <Label 
+               VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center"
+               FontSize="28"
+               Width="auto"
+               Height="auto"
+               BorderThickness="1,1,1,0"
+               BorderBrush="Black"
+               Visibility="Visible" Opacity="0.2"
+               AllowDrop="True" DragEnter="Grid_DragEnter"
+               Drop="Grid_Drop">Drop Files Here
+        </Label>
+
+        
+
+        <Border Opacity="0.2"
+                BorderBrush="Black"
+                BorderThickness="1,0,1,1"
+                Grid.Row="1"
+                Margin="0,2,0,0">
+        </Border>
+
+        <Label Grid.Row="1"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            FontSize="12"
+            Width="auto"
+            Height="32"
+            Visibility="Visible"
+            Content="{Binding VideoFileName}">
+        </Label>
+        
+
+        <DockPanel Background="AliceBlue" LastChildFill="False" Grid.Row="2">
+            <Button Style="{StaticResource TransparentStyle}" Width="32" Height="32"
+                    Cursor="Hand" ToolTip="Add Prompt" Margin="0,0,5,0" Command="{Binding AddCommand}">
+                <Button.Content>
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="\images\NewPrompt.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="25"/>
+                                        <Setter Property="Height" Value="25"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource TransparentStyle}" ToolTip="Delete Prompt"
+                Width="32" Height="32" Cursor="Hand" Margin="0,0,5,0" Command="{Binding DeleteCommand}"  >
+                <Button.Content>
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="\images\DelPrompt.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="25"/>
+                                        <Setter Property="Height" Value="25"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.3"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button.Content>
+            </Button>
+            <Button Style="{StaticResource TransparentStyle}" ToolTip="Clear Checked Items"
+                Width="32" Height="32" Cursor="Hand" Margin="0,0,5,0" Command="{Binding UncheckAllCommand}"  >
+                <Button.Content>
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="/images/UnCheck.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="25"/>
+                                        <Setter Property="Height" Value="25"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.3"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button.Content>
+            </Button>
+            <Separator/>
+            <Label VerticalAlignment="Center" FontSize="14">Filter:</Label>
+            <!--<Grid>
+            <TextBox
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                Height="20"
+                VerticalContentAlignment="Center"
+                Margin="0,0,0,0"
+                ToolTip="Type here to search tasks"
+                FontWeight="SemiBold"
+                Width="180">
+            </TextBox>
+            <Button Height="20" Width="20" Content="X" HorizontalAlignment="Right"
+                    Command="{Binding ClearSearchCommand}" Background="White" Cursor="Hand"/>
+            </Grid>-->
+            <ComboBox Width="180" Height="25" VerticalAlignment="Center"
+                      IsEditable="True" IsTextSearchEnabled="True"
+                      IsTextSearchCaseSensitive="False"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding AvailableOptions}"
+                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedOption, Mode=TwoWay}"
+            />
+            <Button  Width="25" Height="25" Content="✚" HorizontalAlignment="Right"
+                     Command="{Binding AddFilterCommand}" Background="White" 
+                     Cursor="Hand" ToolTip="Save Filter"/>
+            <Button Style="{StaticResource TransparentStyle}" ToolTip="Open Media"
+                    Width="32" Height="32" Cursor="Hand" Margin="0,0,5,0" DockPanel.Dock="Right"
+                    Command="{Binding OpenMediaCommand}"  >
+                <Button.Content>
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="/images/OpenMedia.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Width" Value="25"/>
+                                        <Setter Property="Height" Value="25"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.3"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button.Content>
+            </Button>
+        </DockPanel>
+
+        <ListBox x:Name="ChecklistListBox" 
+             Grid.Row="3"
+             ItemsSource="{Binding TodoListView}"
+             SelectedItem="{Binding SelectedItem}"
+             SelectionMode="Single">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsCompleted, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="0,0,5,0" VerticalAlignment="Center">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+                        <TextBox Text="{Binding TaskDescription, UpdateSourceTrigger=LostFocus}"
+                         FontSize="18" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Grid.Row="4">
+            <DockPanel Background="AliceBlue" LastChildFill="False" Grid.Row="1">
+           
+                <Label 
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    FontSize="14"
+                    Width="auto"
+                    Height="auto"
+                    Visibility="{Binding StatusVisibility}"
+                    >Tags:
+                </Label>
+                <Label Content="{Binding CheckedItemsString}" 
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Foreground="DarkGreen"
+                    Height="auto"
+                    Width="auto"  
+                    FontSize="12"
+                    Visibility="{Binding StatusVisibility}"
+                    />
+
+
+
+                <Button Style="{StaticResource TransparentStyle}" ToolTip="Copy Tags to Clipboard" DockPanel.Dock="Right"
+                    Width="32" Height="32" Cursor="Hand" Command="{Binding CopyCommand}">
+                    <Button.Content>
+                        <Image>
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="/images/Copy.png"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Width" Value="25"/>
+                                            <Setter Property="Height" Value="25"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.3"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Button.Content>
+                </Button>
+                <Button Style="{StaticResource TransparentStyle}" ToolTip="Update Tags in Video" DockPanel.Dock="Right"
+                    Width="32" Height="32" Cursor="Hand" Margin="0,0,5,0" Command="{Binding UpdateVideoTagsCommand}"  >
+                    <Button.Content>
+                        <Image>
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="/images/Movie Add.png"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Width" Value="25"/>
+                                            <Setter Property="Height" Value="25"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.3"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </Button.Content>
+                </Button>
+            
+
+            </DockPanel>
+            <Label HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="DodgerBlue"
+                       Content ="{Binding SuccessMessage}">
+            </Label>
+        </Grid>
+    </Grid>
+</Window>
