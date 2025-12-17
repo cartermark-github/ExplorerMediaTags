@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExplorerTags"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Explorer Media Tags" Height="600" Width="700" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -221,7 +222,11 @@
                             </CheckBox.LayoutTransform>
                         </CheckBox>
                         <TextBox Text="{Binding TaskDescription, UpdateSourceTrigger=LostFocus}"
-                         FontSize="18" HorizontalAlignment="Stretch"/>
+                            FontSize="18" HorizontalAlignment="Stretch">
+                            <i:Interaction.Behaviors>
+                                <local:TripleClickSelectAllBehavior />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
